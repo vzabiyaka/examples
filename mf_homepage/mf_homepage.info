@@ -1,0 +1,12 @@
+; $Id$
+name = Men's Fitness Homepage redesign module
+description = "Home page blocks, imagecache styles etc."
+package = "AMI - MF"
+core = 7.x
+dependencies[] = "nodequeue"
+dependencies[] = "mf_core"
+dependencies[] = "mf_homepage_feature"
+files[] = includes/MFLoadEntities.inc
+files[] = includes/MFBlocks.inc
+files[] = includes/MFConfigBlocks.inc
+files[] = includes/MFRenderHomepageBlocks.inc

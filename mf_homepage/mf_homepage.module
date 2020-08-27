@@ -1,0 +1,644 @@
+<?php
+/**
+ * @file
+ * MF homepage module file.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function mf_homepage_menu(){
+  $items = array();
+
+  $items['mf-homepage'] = array(
+    'page callback' => 'mf_homepage',
+    // Open page callback for homepage, should be accessed by everyone.
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_block_info().
+ */
+function mf_homepage_block_info() {
+  // Homepage Top Group blocks.
+  $blocks['mf_homepage_top3'] = array(
+    'info' => t('Homepage Top 3'),
+  );
+  $blocks['mf_homepage_left_news'] = array(
+    'info' => t('Homepage Left News'),
+  );
+  $blocks['mf_homepage_todays_workout'] = array(
+    'info' => t('Homepage Todays Workout'),
+  );
+  $blocks['mf_homepage_videos'] = array(
+    'info' => t('Homepage Videos'),
+  );
+  $blocks['mf_homepage_editors_pick'] = array(
+    'info' => t('Homepage Editors Pick'),
+  );
+  $blocks['mf_homepage_top_group'] = array(
+    'info' => t('Homepage Top Group'),
+  );
+  // Homepage Top Group blocks end.
+  // Homepage Training Group blocks.
+  $blocks['mf_homepage_training_3'] = array(
+    'info' => t('Homepage Training 3'),
+  );
+  $blocks['mf_homepage_training_left'] = array(
+    'info' => t('Homepage Training left'),
+  );
+  $blocks['mf_homepage_training_group'] = array(
+    'info' => t('Homepage Training Group'),
+  );
+  // Homepage Training Group blocks end.
+  // Homepage Women Group blocks.
+  $blocks['mf_homepage_women_3'] = array(
+    'info' => t('Homepage Women 3'),
+  );
+  $blocks['mf_homepage_women_left'] = array(
+    'info' => t('Homepage Women left'),
+  );
+  $blocks['mf_homepage_women_group'] = array(
+    'info' => t('Homepage Women Group'),
+  );
+  // Homepage Women Group blocks end.
+  // Homepage Recipes Group blocks.
+  $blocks['mf_homepage_recipes_3'] = array(
+    'info' => t('Homepage Recipes 3'),
+  );
+  $blocks['mf_homepage_recipes_left'] = array(
+    'info' => t('Homepage Recipes left'),
+  );
+  $blocks['mf_homepage_recipes_group'] = array(
+    'info' => t('Homepage Recipes Group'),
+  );
+  // Homepage Recipes Group blocks end.
+  // Homepage Lifestyle Group blocks.
+  $blocks['mf_homepage_lifestyle_1'] = array(
+    'info' => t('Homepage Lifestyle 1'),
+  );
+  $blocks['mf_homepage_lifestyle_left'] = array(
+    'info' => t('Homepage Lifestyle left'),
+  );
+  $blocks['mf_homepage_lifestyle_group'] = array(
+    'info' => t('Homepage Lifestyle Group'),
+  );
+  // Homepage Lifestyle Group blocks end.
+  // Homepage LEB (Learn it, Earn it, Burn it).
+  $blocks['mf_homepage_leb'] = array(
+    'info' => t('Homepage LEB block'),
+  );
+  // Homepage LEB (Learn it, Earn it, Burn it).
+  $blocks['mf_homepage_body_book_block'] = array(
+    'info' => t('Homepage Body Book block'),
+  );
+  $blocks['mf_homepage_promo_banners_1'] = array(
+    'info' => t('Homepage Promo Banner block 1'),
+  );
+  $blocks['mf_homepage_promo_banners_2'] = array(
+    'info' => t('Common hompege block'),
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function mf_homepage_block_view($delta = '') {
+  $block = array();
+
+  switch ($delta) {
+    // Homepage Top Group blocks.
+    case 'mf_homepage_top3':
+      $block['content'] = MFRenderHomepageBlocks::getHomepageTop3Block($delta);
+      $block['subject'] = '';
+      break;
+
+    case 'mf_homepage_left_news':
+      $block['content'] = MFRenderHomepageBlocks::getHomepageLeftNewsBlock($delta);
+      $block['subject'] = t('News');
+      break;
+
+    case 'mf_homepage_todays_workout':
+      $block['content'] = MFRenderHomepageBlocks::getHomepageTodaysWorkoutBlock($delta);
+      $block['subject'] = '';
+      break;
+
+    case 'mf_homepage_editors_pick':
+      $block['content'] = MFRenderHomepageBlocks::getHomepageEditorsPicksBlock($delta);
+      $block['subject'] = t("Editors’ Picks");
+      break;
+
+    case 'mf_homepage_top_group':
+      // Set MF homepage blocks positions.
+      $blocks_positions = array(
+        'left' => array(
+          'mf_homepage_todays_workout' => 'mf_homepage',
+          'mf_homepage_left_news' => 'mf_homepage',
+        ),
+        'center' => array(
+          'mf_homepage_top3' => 'mf_homepage',
+          'dfp_mobile_box' => 'ami_dfp_blocks',
+        ),
+        'right' => array(
+          'dfp_right1_300_250' => 'ami_dfp_blocks',
+        ),
+      );
+      $block['content'] = MFRenderHomepageBlocks::getHomepageBlocksGroup($blocks_positions);
+      $block['subject'] = '';
+      break;
+
+    // Homepage Top Group blocks end.
+    case 'mf_homepage_videos':
+      $block['content'] = MFRenderHomepageBlocks::getHomepageVideosBlock($delta);
+      $block['subject'] = t('Videos');
+      break;
+
+    // Homepage Training Group blocks.
+    case 'mf_homepage_training_3':
+      $block['content'] = MFRenderHomepageBlocks::getHomepageTop3Block($delta);
+      $block['subject'] = '';
+      break;
+
+    case 'mf_homepage_training_left':
+      $block['content'] = MFRenderHomepageBlocks::getHomepageAverageTeasers($delta);
+      $block['subject'] = '';
+      break;
+
+    case 'mf_homepage_training_group':
+      $blocks_positions = array(
+        'left' => array(
+          'mf_homepage_training_left' => 'mf_homepage',
+        ),
+        'center' => array(
+          'mf_homepage_training_3' => 'mf_homepage',
+        ),
+        'right' => array(
+          'dfp_right2_300_250' => 'ami_dfp_blocks',
+        ),
+      );
+      $block['content'] = MFRenderHomepageBlocks::getHomepageBlocksGroup($blocks_positions);
+      $block['subject'] = t('Training');
+      break;
+
+    // Homepage Training Group blocks end.
+    // Homepage Women Group blocks.
+    case 'mf_homepage_women_3':
+      $block['content'] = MFRenderHomepageBlocks::getHomepageTop3Block($delta);
+      $block['subject'] = '';
+      break;
+
+    case 'mf_homepage_women_left':
+      $block['content'] = MFRenderHomepageBlocks::getHomepageAverageTeasers($delta);
+      $block['subject'] = '';
+      break;
+
+    case 'mf_homepage_women_promo_block':
+      $block['content'] = MFRenderHomepageBlocks::getHomepageAverageTeasers($delta);
+      $block['subject'] = '';
+      break;
+
+    case 'mf_homepage_women_group':
+      $blocks_positions = array(
+        'left' => array(
+          'mf_homepage_women_left' => 'mf_homepage',
+        ),
+        'center' => array(
+          'mf_homepage_women_3' => 'mf_homepage',
+        ),
+        'right' => array(
+          'mf_core_homepage_promo_block' => 'mf_core',
+        ),
+      );
+      $block['content'] = MFRenderHomepageBlocks::getHomepageBlocksGroup($blocks_positions);
+      $block['subject'] = t('Women');
+      break;
+
+    // Homepage Women Group blocks end.
+    // Homepage Recipes Group blocks.
+    case 'mf_homepage_recipes_3':
+      $block['content'] = MFRenderHomepageBlocks::getHomepageTop3Block($delta);
+      $block['subject'] = '';
+      break;
+
+    case 'mf_homepage_recipes_left':
+      $block['content'] = MFRenderHomepageBlocks::getHomepageAverageTeasers($delta);
+      $block['subject'] = '';
+      break;
+
+    case 'mf_homepage_recipes_group':
+      $blocks_positions = array(
+        'left' => array(
+          'mf_homepage_recipes_left' => 'mf_homepage',
+        ),
+        'center' => array(
+          'mf_homepage_recipes_3' => 'mf_homepage',
+        ),
+        'right' => array(
+          'dfp_right3_300_250' => 'ami_dfp_blocks',
+        ),
+      );
+      $block['content'] = MFRenderHomepageBlocks::getHomepageBlocksGroup($blocks_positions);
+      $block['subject'] = t('Nutrition');
+      break;
+
+    // Homepage Recipes Group blocks end.
+    // Homepage Lifestyle Group blocks.
+    case 'mf_homepage_lifestyle_1':
+      $block['content'] = MFRenderHomepageBlocks::getHomepageTop3Block($delta);
+      $block['subject'] = '';
+      break;
+
+    case 'mf_homepage_lifestyle_left':
+      $block['content'] = MFRenderHomepageBlocks::getHomepageAverageTeasers($delta);
+      $block['subject'] = '';
+      break;
+
+    case 'mf_homepage_lifestyle_group':
+      $blocks_positions = array(
+        'left' => array(
+          'mf_homepage_lifestyle_left' => 'mf_homepage',
+        ),
+        'center' => array(
+          'mf_homepage_lifestyle_1' => 'mf_homepage',
+        ),
+        'right' => array(
+          'dfp_right4_300_250' => 'ami_dfp_blocks',
+          'ora_tv' => 'mf_taboola',
+        ),
+      );
+      $block['content'] = MFRenderHomepageBlocks::getHomepageBlocksGroup($blocks_positions);
+      $block['subject'] = t('Lifestyle');
+      break;
+
+    case 'mf_homepage_leb':
+      $block['content'] = MFRenderHomepageBlocks::getHomepageLebBlock($delta);
+      $block['subject'] = '';
+      break;
+
+    // Homepage Lifestyle Group blocks end.
+
+    case 'mf_homepage_body_book_block':
+      $block['content'] = MFRenderHomepageBlocks::getHomepageBodyBookBlock($delta);
+      $block['subject'] = '<none>';
+      break;
+
+    case 'mf_homepage_promo_banners_1':
+      $block['content'] = MFRenderHomepageBlocks::getHomepagePromoBannersBlock($delta);
+      $block['subject'] = '<none>';
+      break;
+
+    case 'mf_homepage_promo_banners_2':
+      $block['content'] = MFRenderHomepageBlocks::getHomepagePromoBannersBlock($delta);
+      $block['subject'] = '<none>';
+      break;
+  }
+
+  return $block;
+}
+
+/**
+ * Implements hook_block_configure().
+ */
+function mf_homepage_block_configure($delta = '') {
+  // Prepare form array().
+  $form = array();
+  // Apply this configuration to all non group blocks.
+  if (strpos($delta, '_group') === FALSE) {
+    if (strpos($delta, 'mf_homepage_promo_banner') === FALSE) {
+      $form[$delta] = MFConfigBlocks::getBlockConfForm($delta);
+    }
+    else {
+      $form[$delta] = MFConfigBlocks::getPromoBannersBlockConfForm($delta);
+    }
+  }
+
+  return $form;
+}
+
+/**
+ * Implements hook_block_save().
+ */
+function mf_homepage_block_save($delta = '', $edit = array()) {
+  // Save settings for all non group blocks.
+  if (strpos($delta, '_group') === FALSE) {
+    if (strpos($delta, 'mf_homepage_promo_banner') === FALSE) {
+      MFConfigBlocks::setBlockSettings($delta, $edit);
+    }
+    else {
+      MFConfigBlocks::setPromoBannersBlockSettings($delta, $edit);
+    }
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function mf_homepage_theme() {
+  return array(
+    'mf_homepage_todays_workout' => array(
+      'variables' => array(
+        'date' => NULL,
+        'image' => NULL,
+        'title' => NULL,
+        'node_path' => NULL,
+      ),
+      'template' => 'templates/top-group/mf-homepage-todays-workout',
+    ),
+    'mf_homepage_left_news' => array(
+      'variables' => array(
+        'items' => array(),
+        'top_node' => array(),
+        'class' => NULL,
+      ),
+      'template' => 'templates/top-group/mf-homepage-left-news',
+    ),
+    'mf_homepage_top3' => array(
+      'variables' => array(
+        'top' => array(),
+        'bottom' => array(),
+        'class' => NULL,
+        'sharethrough_en' => NULL,
+      ),
+      'template' => 'templates/top-group/mf-homepage-top3',
+    ),
+    'mf_homepage_group' => array(
+      'variables' => array('content' => array()),
+      'template' => 'templates/mf-homepage-group',
+    ),
+    'mf_homepage_editors_pick' => array(
+      'variables' => array('items' => array()),
+      'template' => 'templates/mf-homepage-editors-pick',
+    ),
+    'mf_homepage_videos' => array(
+      'variables' => array(
+        'big_video' => array(),
+        'small_videos' => array(),
+      ),
+      'template' => 'templates/mf-homepage-videos',
+    ),
+    'mf_homepage_leb' => array(
+      'variables' => array(
+        'items' => array(),
+        'sponsored_logo' => array(),
+      ),
+      'template' => 'templates/mf-homepage-leb',
+    ),
+    'mf_homepage_body_book' => array(
+      'variables' => array(
+        'items' => array(),
+        'sponsored_logo' => NULL,
+        'block_title' => NULL,
+      ),
+      'template' => 'templates/mf-homepage-body-book',
+    ),
+    'mf_homepage_promo_banners' => array(
+      'variables' => array(
+        'desktop' => NULL,
+        'mobile' => NULL,
+      ),
+      'template' => 'templates/mf-homepage-promo-banners',
+    ),
+  );
+}
+
+/**
+ * Implements hook_image_default_styles().
+ */
+function mf_homepage_image_default_styles() {
+  $styles = array();
+
+  $styles['node_big_teaser'] = array(
+    'label' => 'Node Big Teaser 640x480',
+    'effects' => array(
+      array(
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => '640',
+          'height' => '480',
+        ),
+        'weight' => 1,
+      ),
+    ),
+  );
+  $styles['node_teaser'] = array(
+    'label' => 'Node teaser 385x256',
+    'effects' => array(
+      array(
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => '385',
+          'height' => '256',
+        ),
+        'weight' => 1,
+      ),
+    ),
+  );
+  $styles['wide_node_teaser'] = array(
+    'label' => 'Wide node teaser 385x256',
+    'effects' => array(
+      array(
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => '385',
+          'height' => '256',
+        ),
+        'weight' => 1,
+      ),
+    ),
+  );
+  $styles['average_node_teaser'] = array(
+    'label' => 'Average node teaser 215x143',
+    'effects' => array(
+      array(
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => '215',
+          'height' => '143',
+        ),
+        'weight' => 1,
+      ),
+    ),
+  );
+  $styles['small_node_teaser'] = array(
+    'label' => 'Small node teaser 75x50',
+    'effects' => array(
+      array(
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => '75',
+          'height' => '50',
+        ),
+        'weight' => 1,
+      ),
+    ),
+  );
+  $styles['wide_videos'] = array(
+    'label' => 'wide_videos_895x503',
+    'effects' => array(
+      array(
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => '895',
+          'height' => '503',
+        ),
+        'weight' => 1,
+      ),
+    ),
+  );
+  $styles['small_videos'] = array(
+    'label' => 'small_videos_247x164',
+    'effects' => array(
+      array(
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => '247',
+          'height' => '164',
+        ),
+        'weight' => 1,
+      ),
+    ),
+  );
+  $styles['390x260'] = array(
+    'label' => '280x187',
+    'effects' => array(
+      array(
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => '280',
+          'height' => '187',
+        ),
+        'weight' => 1,
+      ),
+    ),
+  );
+
+  $styles['main_menu_more_item'] = array(
+    'label' => '215x143',
+    'effects' => array(
+      array(
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => '215',
+          'height' => '143',
+        ),
+        'weight' => 1,
+      ),
+    ),
+  );
+
+  $styles['main_menu_topics_item'] = array(
+    'label' => 'main_menu_topics_item_75x50',
+    'effects' => array(
+      array(
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => '75',
+          'height' => '50',
+        ),
+        'weight' => 1,
+      ),
+    ),
+  );
+
+  $styles['news_block_image'] = array(
+    'label' => 'news_block_image_105x70',
+    'effects' => array(
+      array(
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => '105',
+          'height' => '70',
+        ),
+        'weight' => 1,
+      ),
+    ),
+  );
+
+  return $styles;
+}
+
+/**
+ * Home page menu callback.
+ */
+function mf_homepage() {
+  return '';
+}
+
+/**
+ * Implements hook_contextual_links_view_alter().
+ */
+function mf_homepage_contextual_links_view_alter(&$element, $items) {
+  // Add Edit Nodequeue contextual link into nodequeue based blocks.
+  if (!empty($element['#element']['#block']->module)) {
+    if ($element['#element']['#block']->module == 'mf_homepage') {
+      $block = $element['#element']['#block'];
+      $block_settings = variable_get($block->delta);
+      if (!empty($block_settings['nodequeue'])) {
+        $nodequeue = nodequeue_load_queue_by_name($block_settings['nodequeue']);
+        if (!empty($nodequeue->qid)) {
+          $path = "admin/structure/nodequeue/{$nodequeue->qid}/view";
+          $links = &$element['#links'];
+          $links['edit-nodequeue'] = array(
+            'title' => t('Edit Nodequeue'),
+            'href' => url($path),
+          );
+        }
+      }
+    }
+    elseif ($element['#element']['#block']->delta == 'mf_primary_left_news') {
+      // Add contextual nodequeue links to primary channels left news blocks.
+      $general_category = menu_get_object('taxonomy_term', 2);
+      if (!empty($general_category->tid)) {
+        $tid = $general_category->tid;
+        $news_nodequeue = MFPrimaryCategories::$newsNodequeues;
+        if (!empty($news_nodequeue[$tid])) {
+          $nodequeue = nodequeue_load_queue_by_name($news_nodequeue[$tid]);
+          if (!empty($nodequeue->qid)) {
+            $path = "admin/structure/nodequeue/{$nodequeue->qid}/view";
+            $links = &$element['#links'];
+            $links['edit-nodequeue'] = array(
+              'title' => t('Edit Nodequeue'),
+              'href' => url($path),
+            );
+          }
+        }
+      }
+    }
+    elseif ($element['#element']['#block']->delta == 'mf_lifestyle_top_left') {
+      // Add contextual nodequeue links to primary channels left news blocks.
+      $nodequeue = nodequeue_load_queue_by_name('channel_lifestyle_left_nav');
+      if (!empty($nodequeue->qid)) {
+        $path = "admin/structure/nodequeue/{$nodequeue->qid}/view";
+        $links = &$element['#links'];
+        $links['edit-nodequeue'] = array(
+          'title' => t('Edit Nodequeue'),
+          'href' => url($path),
+        );
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_block_view_MODULE_DELTA_alter().
+ */
+function mf_homepage_block_view_mf_homepage_mf_homepage_body_book_block_alter(&$data, &$block) {
+  $block->title = '';
+  unset($data['subject']);
+}

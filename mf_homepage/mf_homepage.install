@@ -1,0 +1,1310 @@
+<?php
+
+/**
+ * @file
+ * MF homepage install file.
+ */
+
+/**
+ * MFXVI-64 Revert theme settings feature and set new default theme.
+ *
+ * @author Vladimir Zabiyaka
+ */
+function mf_homepage_update_7001() {
+  features_revert_module('mf_theme_settings');
+  theme_enable(array('mfxvi'));
+  theme_disable(array('mensfitness'));
+}
+
+/**
+ * MFXVI-6 Homepage redesign cleanup.
+ *
+ * Remove mf_homepage settings variables.
+ *
+ * @author Vladimir Zabiyaka.
+ */
+function mf_homepage_update_7002() {
+  $variables = array(
+    'mf_homepage_blogs_item_count',
+    'mf_homepage_blogs_item_nodequeue',
+    'mf_homepage_center_blocks',
+  );
+
+  foreach ($variables as $variable) {
+    variable_del($variable);
+  }
+}
+
+/**
+ * MFXVI-65 modules cleanup.
+ *
+ * Uninstall modules.
+ *
+ * @author Vladimir Zabiyaka.
+ */
+function mf_homepage_update_7003() {
+  $modules = array(
+    'mf_contexts',
+    'mf_videos_channel',
+    'mf_channels',
+  );
+  // Remove mf_channels and all known dependencies.
+  module_disable($modules, FALSE);
+}
+
+/**
+ * Set mf_homepage top blocks settings.
+ *
+ * @author Vladimir Zabiyaka
+ */
+function mf_homepage_update_7004() {
+  // Set nodequeue based bloaks settings.
+  $variables = array(
+    'mf_homepage_top3' => array(
+      'block_type' => MFConfigBlocks::MF_BLOCKS_NODEQUEUE_TYPE,
+      'nodequeue' => 'rotator',
+      'quantity' => 3,
+    ),
+    'mf_homepage_left_news' => array(
+      'block_type' => MFConfigBlocks::MF_BLOCKS_NODEQUEUE_TYPE,
+      'nodequeue' => 'todays_news',
+      'quantity' => 20,
+    ),
+    'mf_homepage_todays_workout' => array(
+      'block_type' => MFConfigBlocks::MF_BLOCKS_NODEQUEUE_TYPE,
+      'nodequeue' => 'todays_workout',
+      'quantity' => 1,
+    ),
+    'mf_homepage_editors_pick' => array(
+      'block_type' => MFConfigBlocks::MF_BLOCKS_NODEQUEUE_TYPE,
+      'nodequeue' => 'editors_picks',
+      'quantity' => 3,
+    ),
+    'mf_homepage_videos' => array(
+      'block_type' => MFConfigBlocks::MF_BLOCKS_NODEQUEUE_TYPE,
+      'nodequeue' => 'homepage_videos',
+      'quantity' => 6,
+    ),
+  );
+
+  foreach ($variables as $name => $variable) {
+    variable_set($name, $variable);
+  }
+}
+
+/**
+ * Enable mf_header module.
+ *
+ * @author Vladimir Zabiyaka
+ */
+function mf_homepage_update_7005() {
+  // Enable MF Header feature.
+  module_enable(array('mf_header'));
+}
+
+/**
+ * Remove right sidebar context.
+ *
+ * @auhtor Vladimir Zabiyaka
+ */
+function mf_homepage_update_7006() {
+  // Remove not used context.
+  $context = context_load('right-sidebar-all-desktop-default');
+  context_delete($context);
+}
+
+/**
+ * Enable ds_extras and ds_ui modules.
+ *
+ * @author Vladimir Zabiyaka
+ */
+function mf_homepage_update_7007() {
+  // Enable Display suite extra modules.
+  module_enable(array('ds_extras', 'ds_ui'));
+}
+
+/**
+ * Set mf_homepage taxonomy blocks settings.
+ *
+ * @author Vladimir Zabiyaka
+ */
+function mf_homepage_update_7008() {
+  // Set nodequeue based blocks settings.
+  $variables = array(
+    'mf_homepage_training_3' => array(
+      'block_type' => MFConfigBlocks::MF_BLOCKS_TERM_TYPE,
+      'taxonomy_term' => array(287 => 287),
+      'quantity' => 3,
+    ),
+    'mf_homepage_women_3' => array(
+      'block_type' => MFConfigBlocks::MF_BLOCKS_TERM_TYPE,
+      'taxonomy_term' => array(304 => 304),
+      'quantity' => 3,
+    ),
+    'mf_homepage_recipes_3' => array(
+      'block_type' => MFConfigBlocks::MF_BLOCKS_TERM_TYPE,
+      'taxonomy_term' => array(299 => 299),
+      'quantity' => 3,
+    ),
+    'mf_homepage_lifestyle_1' => array(
+      'block_type' => MFConfigBlocks::MF_BLOCKS_TERM_TYPE,
+      'taxonomy_term' => array(308 => 308, 296 => 296),
+      'quantity' => 1,
+    ),
+  );
+
+  foreach ($variables as $name => $variable) {
+    variable_set($name, $variable);
+  }
+}
+
+/**
+ * Set mf_homepage taxonomy left rail blocks.
+ *
+ * @author Vladimir Zabiyaka
+ */
+function mf_homepage_update_7009() {
+  // Set nodequeue based blocks settings.
+  $variables = array(
+    'mf_homepage_training_left' => array(
+      'block_type' => MFConfigBlocks::MF_BLOCKS_TERM_TYPE,
+      'taxonomy_term' => array(287 => 287),
+      'quantity' => 2,
+    ),
+    'mf_homepage_women_left' => array(
+      'block_type' => MFConfigBlocks::MF_BLOCKS_TERM_TYPE,
+      'taxonomy_term' => array(304 => 304),
+      'quantity' => 6,
+    ),
+    'mf_homepage_recipes_left' => array(
+      'block_type' => MFConfigBlocks::MF_BLOCKS_TERM_TYPE,
+      'taxonomy_term' => array(299 => 299),
+      'quantity' => 5,
+    ),
+    'mf_homepage_lifestyle_left' => array(
+      'block_type' => MFConfigBlocks::MF_BLOCKS_TERM_TYPE,
+      'taxonomy_term' => array(308 => 308, 296 => 296),
+      'quantity' => 2,
+    ),
+  );
+
+  foreach ($variables as $name => $variable) {
+    variable_set($name, $variable);
+  }
+}
+
+/**
+ * Set sailthru block settings variables.
+ *
+ * @auhtor Vladimir Zabiyaka
+ */
+function mf_homepage_update_7010() {
+  // Sailthru block settings.
+  variable_set('sailthru_multiple_promo_caption', 'Email address');
+  variable_set('sailthru_newsletter_title', 'Get our newsletter. <span>Sign up and receive Exclusive Offers</span>');
+}
+
+/**
+ * Re-run first 3 updates.
+ *
+ * @auhtor Vladimir Zabiyaka
+ */
+function mf_homepage_update_7011() {
+  mf_homepage_update_7001();
+  mf_homepage_update_7002();
+  mf_homepage_update_7003();
+}
+
+/**
+ * Re-run first 7008 and 7009.
+ *
+ * @auhtor Vladimir Zabiyaka
+ */
+function mf_homepage_update_7012() {
+  mf_homepage_update_7008();
+  mf_homepage_update_7009();
+}
+
+/**
+ * Set women promo block value.
+ *
+ * Block stored in separate module since it doesn't use
+ * smart blcoks functionality.
+ *
+ * @auhtor Vladimir Zabiyaka
+ */
+function mf_homepage_update_7013() {
+  $women_right_rail = '<div class="women-channel-static">' .
+    '<strong class="women-channel-static__promo">' .
+    '<a href="#"><span class="women-channel-static__text women-channel-static__text_white">21day shred</span> <span class="women-channel-static__text women-channel-static__text_red">The Men’s Fitness</span> <span class="women-channel-static__text women-channel-static__text_montana">Full Training Program</span></a>' .
+    '</strong><a href="#" class="link-more  link-more_is-block">' .
+    '<svg class="icon svg-icon_arrow_red-dims">' .
+    '<use xlink:href="#icon_arrow_red"></use></svg>Read more...</a></div>';
+
+  $variable = array(
+    'value' => $women_right_rail,
+    'format' => 'full_html',
+  );
+
+  variable_set('mf_core_homepage_promo_block_value', $variable);
+}
+
+/**
+ * Set header subscribe block settings.
+ *
+ * Upload files and apply all other settings.
+ *
+ * @auhtor Vladimir Zabiyaka
+ */
+function mf_homepage_update_7014() {
+  $images = array(
+    'get_the_magazine.png',
+    'get_the_app.jpg',
+  );
+  $fids = array();
+  try {
+    foreach ($images as $image) {
+      $fids[] = MFHeaderBlocks::uploadFile($image, 'mf_header');
+    }
+  }
+  catch (DrupalUpdateException $e) {
+    if (function_exists('drush_log')) {
+      drush_log('Error during file upload ' . $e->getMessage());
+    }
+  }
+
+  $settings = array(
+    'first_title' => 'Newsletter',
+    'first_expert' => array(
+      'value' => 'Get Men\'s Fitness Daily Newsletters',
+      'format' => 'filtered_html',
+    ),
+    'second_title' => 'Get the Magazine',
+    'second_expert' => array(
+      'value' => 'Subscribe to Men\'s Fitness for up to 80% OFF the newsstand price!',
+      'format' => 'filtered_html',
+    ),
+    'second_image' => !empty($fids[0]) ? array('fid' => $fids[0]) : '',
+    'second_read_more' => 'https://w1.buysub.com/pubs/SR/DMT/DMT_print_digital.jsp?cds_page_id=201800&cds_mag_code=DMT&id=1479152246477&lsid=63191337264029480&vid=1',
+    'third_title' => 'Get the App',
+    'third_expert' => array(
+      'value' => 'Subscribe to the digital version lorem ipsum dolor sit amet',
+      'format' => 'filtered_html',
+    ),
+    'third_image' => !empty($fids[1]) ? array('fid' => $fids[1]) : '',
+    'third_read_more' => 'https://itunes.apple.com/us/app/mens-fitness/id477288194?mt=8',
+  );
+
+  variable_set('mf_header_main_nav_subscribe', $settings);
+}
+
+/**
+ * Removing unused menus.
+ *
+ * @author Vladimir Zabiyaka
+ */
+function mf_homepage_update_7016() {
+  $menus_list = array(
+    'devel',
+    'features',
+    'menu-third-nav',
+    'menu-secondary-nav',
+    'menu-secondary-links',
+    'new-header-menu-primary-links',
+    'menu-mobile-tirms-of-use',
+  );
+  foreach ($menus_list as $menu) {
+    if ($isset_menu = menu_load($menu)) {
+      menu_delete(array('menu_name' => $isset_menu));
+    }
+  }
+}
+
+/**
+ * Enable mf_footer module.
+ *
+ * @author Vladimir Zabiyaka
+ */
+function mf_homepage_update_7017() {
+  // We are sure about dependencies that's why we set second argument to FALSE.
+  module_enable(array('mf_footer'), FALSE);
+}
+
+/**
+ * Enable mf_node module.
+ *
+ * @author Vladimir Zabiyaka
+ */
+function mf_homepage_update_7018() {
+  // We are sure about dependencies that's why we set second argument to FALSE.
+  module_enable(array('print_mail', 'mf_node'), FALSE);
+}
+
+/**
+ * Remove node not used context.
+ *
+ * @auhtor Vladimir Zabiyaka
+ */
+function mf_homepage_update_7019() {
+  $contexts = array(
+    'video-node-desktop-override',
+    'aticle-node-desktop-override',
+  );
+
+  foreach ($contexts as $context) {
+    // Remove not used context.
+    $context = context_load($context);
+    context_delete($context);
+  }
+}
+
+/**
+ * Remove node not used mensfitness menu links.
+ *
+ * @auhtor Vladimir Zabiyaka
+ */
+function mf_homepage_update_7020() {
+  // Remove not used mensfitness menu links.
+  $menu_links = array(
+    6691 => 'Privacy Policy',
+    7081 => 'Terms and Conditions',
+    7372 => 'RSS Feed',
+    1558 => 'Advertising Info',
+    1557 => 'Home',
+  );
+
+  foreach ($menu_links as $link => $title) {
+    menu_link_delete($link);
+  }
+}
+
+/**
+ * Enable DFP custom blocks.
+ *
+ * @author Vladimir Zabiyaka.
+ */
+function mf_homepage_update_7021() {
+  module_disable(array('boxes'));
+  drupal_uninstall_modules(array('boxes'));
+
+  module_enable(array('ami_dfp_blocks'));
+}
+
+/**
+ * Enable mf_index_pages module.
+ *
+ * @author Vladimir Zabiyaka.
+ */
+function mf_homepage_update_7022() {
+  module_disable(array('mf_topics'));
+
+  module_enable(array('mf_index_pages'));
+}
+
+/**
+ * Install mf_taxonomy module.
+ *
+ * @auhtor Vladimir Zabiyaka
+ */
+function mf_homepage_update_7023() {
+  module_enable(array('mf_taxonomy'));
+}
+
+/**
+ * Create variable pages aliases for 2columns layout.
+ *
+ * @author Vladimir Zabiyaka.
+ */
+function mf_homepage_update_7026() {
+  $aliases = 'authors
+topics
+contact';
+  variable_set('two_columns_layout_paths', $aliases);
+}
+
+/**
+ * Added 'newsletters' page into 2columns layout.
+ *
+ * @author Vladimir Zabiyaka.
+ */
+function mf_homepage_update_7027() {
+  $aliases = 'authors
+topics
+contact
+newsletters';
+  variable_set('two_columns_layout_paths', $aliases);
+}
+
+/**
+ * Remove node not used mensfitness menu links.
+ *
+ * @auhtor Vladimir Zabiyaka
+ */
+function mf_homepage_update_7028() {
+  // Remove not used mensfitness menu links.
+  $menu_links = array(
+    1251 => 'Guy Food',
+    1256 => 'Sex & Women',
+    1248 => 'Style & Grooming',
+    1260 => 'Life',
+    1265 => 'Gear & Tech',
+  );
+
+  foreach ($menu_links as $link => $title) {
+    menu_link_delete($link);
+  }
+}
+
+/**
+ * Added 'thank-you' page into 2columns layout.
+ *
+ * @author Vladimir Zabiyaka.
+ */
+function mf_homepage_update_7029() {
+  $aliases = 'authors
+topics
+contact
+newsletters
+thank-you';
+  variable_set('two_columns_layout_paths', $aliases);
+}
+
+/**
+ * Add variable for store pages where we need hide sidebar on mobile.
+ *
+ * @author Vladimir Zabiyaka.
+ */
+function mf_homepage_update_7030() {
+  $aliases = 'authors
+topics
+contact
+newsletters
+thank-you';
+  variable_set('node_mobile_sidebar_hidden', $aliases);
+}
+
+/**
+ * Set header subscribe settings once more due to file array change.
+ *
+ * @author Vladimir Zabiyaka.
+ */
+function mf_homepage_update_7031() {
+  mf_homepage_update_7014();
+}
+
+/**
+ * Enable mf_videos module to create videos channel page.
+ *
+ * @author Vladimir Zabiyaka.
+ */
+function mf_homepage_update_7032() {
+  module_enable(array('mf_videos'));
+}
+
+/**
+ * Re-run taxonomy blocks settings updates.
+ *
+ * @author Vladimir Zabiyaka.
+ */
+function mf_homepage_update_7033() {
+  mf_homepage_update_7008();
+  mf_homepage_update_7009();
+}
+
+/**
+ * Enable MF lifestyle module.
+ *
+ * @author Vladimir Zabiyaka.
+ */
+function mf_homepage_update_7034() {
+  module_enable(array('mf_lifestyle'));
+}
+
+/**
+ * MFXVI-231 Channel Page - ADS. Change settings for third dfp block.
+ *
+ * @author Vladimir Zabiyaka.
+ */
+function mf_homepage_update_7035() {
+  $ami_dfp_pos_settings = variable_get('ami_dfp_pos_settings', array());
+  foreach ($ami_dfp_pos_settings as &$dfp) {
+    if ($dfp['id'] == 'dfp-ad-right3_300x250') {
+      $dfp['ctype'] = array(
+        'homepage' => 'homepage',
+        'landing_page' => 'landing_page',
+      );
+    }
+  }
+  unset($dfp);
+  variable_set('ami_dfp_pos_settings', $ami_dfp_pos_settings);
+}
+
+/**
+ * Add newsletters/confirmation page to 2column_layout.
+ *
+ * @author Vladimir Zabiyaka.
+ */
+function mf_homepage_update_7036() {
+  $aliases = 'authors
+topics
+contact
+newsletters
+thank-you
+newsletters/confirmation';
+  variable_set('node_mobile_sidebar_hidden', $aliases);
+  variable_set('two_columns_layout_paths', $aliases);
+}
+
+/**
+ * Disable mf_gigya module.
+ *
+ * @author Vladimir Zabiyaka.
+ */
+function mf_homepage_update_7037() {
+ module_disable(array('mf_gigya'));
+}
+
+/**
+ * Set mf_homepage LEB blocks settings.
+ *
+ * @author Vladimir Zabiyaka
+ */
+function mf_homepage_update_7038() {
+  // Set nodequeue based blocks settings.
+  $variables = array(
+    'mf_homepage_leb' => array(
+      'block_type' => MFConfigBlocks::MF_BLOCKS_NODEQUEUE_TYPE,
+      'nodequeue' => 'home_page_magazine_columns',
+      'quantity' => 3,
+    ),
+  );
+
+  foreach ($variables as $name => $variable) {
+    variable_set($name, $variable);
+  }
+}
+
+/**
+ * Disable GTM for redesign.
+ *
+ * @author Vladimir Zabiyaka
+ */
+function mf_homepage_update_7039() {
+  // Disabling GTM by setiing ami_gtm_new_disabled_gtm variable.
+  variable_set('ami_gtm_new_disabled_gtm', TRUE);
+  variable_set('tealium_javascript_async_mode', 1);
+  variable_set('tealium_javascript_scope_theme', 'content');
+}
+
+/**
+ * Remove Recipe channel legacy context.
+ *
+ * @auhtor Vladimir Zabiyaka
+ */
+function mf_homepage_update_7040() {
+  // Remove not used context.
+  $context = context_load('desktop-recipe-default');
+  context_delete($context);
+}
+
+
+/**
+ * Set default sponsored field values for redesign Ct nodes.
+ *
+ * @auhtor Vladimir Zabiyaka
+ */
+function mf_homepage_update_7041(&$sandbox) {
+  if (!isset($sandbox['progress'])) {
+    $sandbox['progress'] = 0;
+    $sandbox['current_nid'] = 0;
+    $sandbox['max'] = db_query('SELECT COUNT(nid) FROM {node} WHERE type IN (:type)', array(':type' => MFLoadEntities::$defaultNodeTypes))->fetchField();
+  }
+
+  $nids = db_query_range("SELECT nid FROM {node} WHERE type IN (:type) AND nid > :nid ORDER BY nid", 0, 20, array(':type' => MFLoadEntities::$defaultNodeTypes, ':nid' => $sandbox['current_nid']))->fetchCol();
+
+  // Update urls.
+  $nodes = node_load_multiple($nids);
+  foreach ($nodes as $node) {
+    if (isset($node->field_sponsored) && empty($node->field_sponsored[LANGUAGE_NONE][0]['value'])) {
+      $node->field_sponsored[LANGUAGE_NONE][0]['value'] = 0;
+      field_attach_update('node', $node);
+    }
+
+    $sandbox['progress']++;
+    $sandbox['current_nid'] = $node->nid;
+  }
+
+  if (function_exists('drush_log')) {
+    drush_log(t('Processed @nodes from @total', array('@nodes' => $sandbox['progress'], '@total' => $sandbox['max'])), 'success');
+  }
+
+  $sandbox['#finished'] = $sandbox['progress'] / $sandbox['max'];
+}
+
+/**
+ * Disable chartbeat.
+ *
+ * @auhtor Vladimir Zabiyaka.
+ */
+function mf_homepage_update_7042() {
+  module_disable(array('chartbeat'));
+}
+
+/**
+ * Enable mf custom search module.
+ *
+ * @auhtor Vladimir Zabiyaka.
+ */
+function mf_homepage_update_7043() {
+  module_enable(array('mf_custom_search'));
+  module_disable(array('mf_search_context', 'mf_workout_search', 'mf_recipes_search'));
+  $list = array(
+    'right-sidebar-search-default-override',
+    'desktop-search-workout-routines-default-override',
+    'desktop-search-healthy-recipes-default-override',
+  );
+  foreach ($list as $context) {
+    $context = context_load('right-sidebar-all-desktop-default');
+    context_delete($context);
+  }
+}
+
+/**
+ * Remove not used workout routine fields.
+ *
+ * @author Vladimir Zabiyaka.
+ */
+function mf_homepage_update_7044() {
+  $fields = array('field_workouts', 'field_image');
+  foreach ($fields as $field) {
+    if ($instance = field_info_instance('node', $field, 'workout_routine')) {
+      try {
+        field_delete_instance($instance);
+      }
+      catch (Exception $e) {
+        throw new DrupalUpdateException('Error occurred: ' . $e->getMessage());
+      }
+    }
+    else {
+      if (function_exists('drush_log')) {
+        drush_log("Field instance $field was not found");
+      }
+    }
+  }
+}
+
+/**
+ * Added settings var for tealium 'other' page category.
+ *
+ * @author Vladimir Zabiyaka.
+ */
+function mf_homepage_update_7045() {
+  $path_array = 'authors
+topics
+contact
+newsletters
+thank-you
+newsletters/confirmation';
+  variable_set('tealium_common_category_other', $path_array);
+}
+
+/**
+ * Update recipe nodes to change directions field text format values.
+ *
+ * @author Vladimir Zabiyaka
+ */
+function mf_homepage_update_7046(&$sandbox) {
+
+  if (!isset($sandbox['progress'])) {
+    // Revert mf_content_types feature.
+    module_load_include('inc', 'features', 'features.export');
+    features_include();
+    if (($feature = feature_load('mf_content_types', TRUE)) && module_exists('mf_content_types')) {
+      $components = array();
+      // Forcefully revert all components of a feature.
+      foreach (array_keys($feature->info['features']) as $component) {
+        if (features_hook($component, 'features_revert')) {
+          $components[] = $component;
+        }
+      }
+    }
+    foreach ($components as $component) {
+      features_revert(array('mf_content_types' => array($component)));
+    }
+
+    $sandbox['progress'] = 0;
+    $sandbox['current_nid'] = 0;
+    $sandbox['nids'] = db_select('field_data_field_directions', 'fd')
+      ->distinct()
+      ->fields('fd', array('entity_id'))
+      ->condition('fd.field_directions_value', '%<p>%', 'LIKE')
+      ->execute()
+      ->fetchCol();
+    $sandbox['max'] = count($sandbox['nids']);
+  }
+
+  $nids = array_slice($sandbox['nids'], $sandbox['progress'], 5);
+
+  // Resave nodes to set correct directions field values.
+  $nodes = node_load_multiple($nids);
+  foreach ($nodes as $node) {
+    if (!empty($node->field_directions[LANGUAGE_NONE])) {
+      foreach ($node->field_directions[LANGUAGE_NONE] as $key => $field_direction) {
+        $node->field_directions[LANGUAGE_NONE][$key]['format'] = 'filtered_html';
+      }
+    }
+    node_save($node);
+    $sandbox['progress']++;
+  }
+
+  if (function_exists('drush_log')) {
+    drush_log(t('Processed @nodes from @total', array('@nodes' => $sandbox['progress'], '@total' => $sandbox['max'])), 'success');
+  }
+
+  $sandbox['#finished'] = $sandbox['progress'] / $sandbox['max'];
+}
+
+/**
+ * Enable analytics module for amp.
+ *
+ * @author Vladimir Zabiyaka.
+ */
+function mf_homepage_update_7047() {
+  $amp_analytics_settings = array(
+    array(
+      'status' => 1,
+      'name' => 'comscore',
+      'attributes' => 'type|comscore',
+      'json' => '{
+      "vars": {
+         "c1": "2",
+         "c2": "6036076"
+       },
+       "triggers": {
+        "trackPageview": {
+          "on": "visible",
+          "request": "pageview"
+        },
+        "trackChangeSlide": {
+          "on": "click",
+          "selector": ".amp-carousel-button",
+          "request": "pageview",
+          "vars": {
+            "eventCategory": "ui-components",
+            "eventAction": "click"
+          }
+        }
+      }
+    }',
+    ),
+    array(
+      'status' => 1,
+      'name' => 'chartbeat',
+      'attributes' => 'type|chartbeat',
+      'json' => '{
+      "vars": {
+         "uid": "11054",
+         "domain": "mensfitness.com",
+         "types": "1",
+         "limit": "5"
+       }
+    }',
+    ),
+    array(
+      'status' => 1,
+      'name' => 'google_analytics',
+      'attributes' => 'type|googleanalytics',
+      'json' => '{
+      "vars": {
+        "account": "UA-1912801-28"
+      },
+      "triggers": {
+        "trackPageview": {
+          "on": "visible",
+          "request": "pageview"
+        },
+        "trackChangeSlide": {
+          "on": "click",
+          "selector": ".amp-carousel-button",
+          "request": "event",
+          "vars": {
+            "eventCategory": "ui-components",
+            "eventAction": "click"
+          }
+        }
+      }
+    }',
+    ),
+  );
+  variable_set('amp_analytics_settings', $amp_analytics_settings);
+  module_enable(array('amp_analytics'));
+}
+
+/**
+ * Fully deactivated gigya.
+ *
+ * @author Vladimir Zabiyaka.
+ */
+function mf_homepage_update_7048() {
+  field_delete_field('field_gigya_sharebar');
+  field_delete_field('field_gigya_sharebar2');
+  field_purge_batch(100);
+
+  module_disable(array('mf_gigya_settings', 'gigya'));
+  drupal_uninstall_modules(array('mf_gigya_settings', 'gigya'));
+}
+
+/**
+ * Enable taboola.
+ *
+ * @author Vladimir Zabiyaka.
+ */
+function mf_homepage_update_7049() {
+  variable_set('mf_taboola_taboola_enabled', 1);
+}
+
+/**
+ * Remove unused vars.
+ *
+ * @author Vladimir Zabiyaka.
+ */
+function mf_homepage_update_7050() {
+  $names = array(
+    'mf_taboola_netseer_tag_id',
+    'mf_taboola_netseer_enabled',
+    'mf_taboola_netseer_ie',
+    'mf_taboola_netseer_disable_by_path',
+    'taboola_mediabong_enabled',
+    'taboola_mediabong_disable_by_path',
+  );
+  foreach ($names as $name) {
+    variable_del($name);
+  }
+}
+
+/**
+ * Delete unused fields.
+ *
+ * @author Vladimir Zabiyaka.
+ */
+function mf_homepage_update_7051() {
+  $fields = array(
+    'field_related_content_module_tit',
+    'field_workouts_equipment',
+    'field_widge_image',
+  );
+  foreach ($fields as $field) {
+    if ($instance = field_info_instance('node', $field, 'workout_routine')) {
+      try {
+        field_delete_instance($instance);
+      }
+      catch (Exception $e) {
+        throw new DrupalUpdateException('Error occurred: ' . $e->getMessage());
+      }
+    }
+    else {
+      if (function_exists('drush_log')) {
+        drush_log("Field instance $field was not found");
+      }
+    }
+  }
+}
+
+/**
+ * Delete list ct.
+ *
+ * @author Vladimir Zabiyaka.
+ */
+function mf_homepage_update_7052() {
+  if (node_type_load('list')) {
+    node_type_delete('list');
+    variable_del('node_preview_list');
+    drupal_set_message(t('%type content type has been deleted.', array('%type' => 'list')));
+  }
+  node_types_rebuild();
+  variable_set('menu_rebuild_needed', TRUE);
+}
+
+/**
+ * Delete footer_rss ct.
+ *
+ * @author Vladimir Zabiyaka.
+ */
+function mf_homepage_update_7053() {
+  // Delete social_media_icon ct.
+  $ct = 'footer_rss';
+  $sql = 'SELECT nid FROM {node} n WHERE n.type = :type';
+  $result = db_query($sql, array(':type' => $ct));
+  $nodeids = array();
+  foreach ($result as $row) {
+    $nodeids[] = $row->nid;
+  }
+  node_delete_multiple($nodeids);
+  drupal_set_message(t('%count nodes has been deleted.', array('%count' => count($nodeids))));
+  if (node_type_load($ct)) {
+    node_type_delete($ct);
+    variable_del('node_preview_' . $ct);
+    drupal_set_message(t('%type content type has been deleted.', array('%type' => $ct)));
+  }
+  node_types_rebuild();
+  variable_set('menu_rebuild_needed', TRUE);
+}
+
+/**
+ * Delete fitness_online voc.
+ *
+ * @author Vladimir Zabiyaka.
+ */
+function mf_homepage_update_7054() {
+  field_delete_field('field_fitness_online');
+  $vid = db_select('taxonomy_vocabulary', 't')
+    ->fields('t', array('vid'))
+    ->condition('t.machine_name', 'fitness_online')
+    ->execute()
+    ->fetchField();
+  if ($vid) {
+    taxonomy_vocabulary_delete($vid);
+  }
+}
+
+/**
+ * Delete nodequeue 'footer rss'.
+ *
+ * @author Vladimir Zabiyaka.
+ */
+function mf_homepage_update_7055() {
+  $qid = db_select('nodequeue_queue', 'n')
+    ->fields('n', array('qid'))
+    ->condition('n.name', 'footer_rss_feed')
+    ->execute()
+    ->fetchField();
+  if ($qid) {
+    nodequeue_delete($qid);
+  }
+}
+
+/**
+ * Delete Product voc.
+ *
+ * @author Vladimir Zabiyaka.
+ */
+function mf_homepage_update_7056() {
+  field_delete_field('field_product_category');
+  $vid = db_select('taxonomy_vocabulary', 't')
+    ->fields('t', array('vid'))
+    ->condition('t.machine_name', 'product_category')
+    ->execute()
+    ->fetchField();
+  if ($vid) {
+    taxonomy_vocabulary_delete($vid);
+  }
+}
+
+/**
+ * Disable GTM.
+ *
+ * @author Vladimir Zabiyaka.
+ */
+function mf_homepage_update_7057() {
+  module_disable(array('ami_gtm_common', 'ami_gtm_new'));
+  drupal_uninstall_modules(array('ami_gtm_new'));
+  $vars = array(
+    'taxonomy_for_gtm',
+    'viglinks_enabled',
+    'viglinks_disable_by_path',
+  );
+  foreach ($vars as $name) {
+    variable_del($name);
+  }
+}
+
+/**
+ * Delete unused fields in article.
+ *
+ * @author Vladimir Zabiyaka.
+ */
+function mf_homepage_update_7058() {
+  $fields = array(
+    'field_rotator_title',
+    'field_rotator_description',
+    'field_editors_recommend',
+    'field_vertical_image',
+    'field_widge_image',
+    'field_hide_left_sidebar',
+    'field_fitness_online',
+    'field_hide_image',
+  );
+  foreach ($fields as $field) {
+    if ($instance = field_info_instance('node', $field, 'article')) {
+      try {
+        field_delete_instance($instance);
+      }
+      catch (Exception $e) {
+        throw new DrupalUpdateException('Error occurred: ' . $e->getMessage());
+      }
+    }
+    else {
+      if (function_exists('drush_log')) {
+        drush_log("Field instance $field was not found");
+      }
+    }
+  }
+}
+
+/**
+ * Delete unused term_queue.
+ *
+ * @author Vladimir Zabiyaka.
+ */
+function mf_homepage_update_7059() {
+  $names = array(
+    'guy_food_channel_rotator',
+    'weight_loss_channel_hot_topics',
+    'life_channel_hot_topics',
+    'nutrition_channel_hot_topics',
+    'sex_women_channel_hot_topics',
+    'sports_channel_hot_topics',
+    'style_grooming_channel_hot_topics',
+    'training_channel_hot_topics',
+    'homepage_hot_topics',
+  );
+  foreach ($names as $name) {
+    $qid = db_select('term_queue', 't')
+      ->fields('t', array('qid'))
+      ->condition('t.machine_name', $name)
+      ->execute()
+      ->fetchField();
+    term_queue_delete(array('qid' => $qid));
+  }
+}
+
+/**
+ * Change image style for AMP galleries.
+ *
+ * @author Vladimir Zabiyaka.
+ */
+function mf_homepage_update_7060() {
+  variable_set('maf_amp_field_gallery_image_style', 'mobile_exercise_steps');
+  $mfxvi_amp_image_styles_layouts = array(
+    'wide_videos' => 'responsive',
+    'node_teaser' => 'responsive',
+    'mobile_exercise_steps' => 'responsive',
+  );
+  variable_set('mfxvi_amp_image_styles_layouts', $mfxvi_amp_image_styles_layouts);
+}
+
+/**
+ * Disable some unused code.
+ *
+ * @author Vladimir Zabiyaka.
+ */
+function mf_homepage_update_7061() {
+  // Remove not used context.
+  $contexts = array(
+    'channel-blogs-desktop-override',
+    'right-sidebar-blogs-desktop-default',
+    'sub-channel-blogs-desktop-override',
+  );
+  foreach ($contexts as $context_name) {
+    $context = context_load('right-sidebar-all-desktop-default');
+    context_delete($context);
+  }
+
+  $vars = array(
+    'mf_new_header_newheader_enabled',
+    'mf_new_header_ll',
+    'mf_404_configurable_html',
+  );
+  foreach ($vars as $var_name) {
+    variable_del($var_name);
+  }
+  module_disable(array(
+    'mf_new_header',
+    'mf_404',
+    'mf_blogs_feature',
+    'mf_blogs',
+    'mf_zergnet',
+  ));
+}
+
+/**
+ * Disable pagination module.
+ *
+ * @author Vladimir Zabiyaka.
+ */
+function mf_homepage_update_7062() {
+  module_disable(array('pagination'));
+  drupal_uninstall_modules(array('pagination'));
+}
+
+/**
+ * MFXVI-643 Convert REVIEW into Articles.
+ *
+ * @author Vladimir Zabiyaka.
+ */
+function mf_homepage_update_7063(&$sandbox) {
+  if (!isset($sandbox['total'])) {
+    $result = db_query("SELECT nid FROM node WHERE type='review'");
+    $sandbox['total'] = $result->rowCount();
+    $sandbox['current'] = 0;
+  }
+  $nodes_per_pass = 10;
+  $result = db_query_range("SELECT nid FROM node WHERE type='review'", 0, $nodes_per_pass);
+  $nodes = $result->fetchCol();
+  $nodes = node_load_multiple($nodes);
+  foreach ($nodes as $node) {
+    $product_info = field_get_items('node', $node, 'field_product_info');
+    $wrapper = entity_metadata_wrapper('node', $node);
+    $node->type = 'article';
+    $node->log = 'This node was programatically updated at ' . date('c');
+    $node->revision = 1;
+    // Changed date.
+    $changed = $node->changed;
+    // url alias.
+    $node->path['pathauto'] = 0;
+    $alias = drupal_get_path_alias('node/' . $node->nid);
+
+    if ($product_info && !empty($product_info)) {
+      $body = $wrapper->__isset('body') ? $wrapper->body->value() : '';
+      if ($body) {
+        $body .= $product_info[0]['value'];
+      }
+      else {
+        $body = $product_info[0]['value'];
+        $node->body[$node->language][0]['format'] = 'full_html';
+      }
+      $node->body[$node->language][0]['value'] = $body;
+    }
+    node_save($node);
+    db_update('node')
+      ->fields(array('changed' => $changed))
+      ->condition('nid', $node->nid)
+      ->execute();
+    // Also update revision timestamp.
+    db_update('node_revision')
+      ->fields(array('timestamp' => $changed))
+      ->condition('nid', $node->nid)
+      ->execute();
+    $new_alias = drupal_get_path_alias('node/' . $node->nid);
+    if (!$new_alias || $alias != $new_alias) {
+      db_update('url_alias')
+        ->fields(array('alias' => $alias))
+        ->condition('source', 'node/' . $node->nid)
+        ->execute();
+    }
+    drupal_set_message(t('We processed node @nid', array('@nid' => $node->nid)));
+
+    $sandbox['current']++;
+  }
+
+  $sandbox['#finished'] = ($sandbox['current'] / $sandbox['total']);
+
+  if ($sandbox['#finished'] === 1) {
+    drupal_set_message(t('We processed @nodes nodes. DONE!!!', array('@nodes' => $sandbox['total'])));
+    if (node_type_load('review')) {
+      node_type_delete('review');
+      variable_del('node_preview_review');
+      drupal_set_message(t('%type content type has been deleted.', array('%type' => 'review')));
+    }
+    node_types_rebuild();
+    variable_set('menu_rebuild_needed', TRUE);
+  }
+}
+
+/**
+ * Delete field_workout_category field.
+ *
+ * @author Vladimir Zabiyaka.
+ */
+function mf_homepage_update_7064() {
+  field_delete_field('field_workout_category');
+  $vid = db_select('taxonomy_vocabulary', 't')
+    ->fields('t', array('vid'))
+    ->condition('t.machine_name', 'workout_category')
+    ->execute()
+    ->fetchField();
+  if ($vid) {
+    taxonomy_vocabulary_delete($vid);
+  }
+}
+
+/**
+ * MFXVI-631 Convert Workouts into Articles.
+ *
+ * @author Vladimir Zabiyaka.
+ */
+function mf_homepage_update_7065(&$sandbox) {
+  if (!isset($sandbox['total'])) {
+    $result = db_query("SELECT nid FROM node WHERE type='workout'");
+    $sandbox['total'] = $result->rowCount();
+    $sandbox['current'] = 0;
+  }
+  $nodes_per_pass = 10;
+  $result = db_query_range("SELECT nid FROM node WHERE type='workout'", 0, $nodes_per_pass);
+  $nodes = $result->fetchCol();
+  $nodes = node_load_multiple($nodes);
+  foreach ($nodes as $node) {
+    $node->type = 'article';
+    $node->log = 'This node was programatically updated at ' . date('c');
+    $node->revision = 1;
+    // Changed date.
+    $changed = $node->changed;
+    // url alias.
+    $node->path['pathauto'] = 0;
+    $alias = drupal_get_path_alias('node/' . $node->nid);
+
+    node_save($node);
+    db_update('node')
+      ->fields(array('changed' => $changed))
+      ->condition('nid', $node->nid)
+      ->execute();
+    // Also update revision timestamp.
+    db_update('node_revision')
+      ->fields(array('timestamp' => $changed))
+      ->condition('nid', $node->nid)
+      ->execute();
+    $new_alias = drupal_get_path_alias('node/' . $node->nid);
+    if (!$new_alias || $alias != $new_alias) {
+      db_update('url_alias')
+        ->fields(array('alias' => $alias))
+        ->condition('source', 'node/' . $node->nid)
+        ->execute();
+    }
+    drupal_set_message(t('We processed node @nid', array('@nid' => $node->nid)));
+
+    $sandbox['current']++;
+  }
+
+  $sandbox['#finished'] = ($sandbox['current'] / $sandbox['total']);
+
+  if ($sandbox['#finished'] === 1) {
+    drupal_set_message(t('We processed @nodes nodes. DONE!!!', array('@nodes' => $sandbox['total'])));
+    if (node_type_load('workout')) {
+      node_type_delete('workout');
+      variable_del('node_preview_workout');
+      drupal_set_message(t('%type content type has been deleted.', array('%type' => 'workout')));
+    }
+    node_types_rebuild();
+    variable_set('menu_rebuild_needed', TRUE);
+  }
+}
+
+/**
+ * MF-1652 Home Page - Body Book BLOCK - Back End.
+ *
+ * @author Vladimir Zabiyaka
+ */
+function mf_homepage_update_7066() {
+  // Set nodequeue based blocks settings.
+  $variables = array(
+    'mf_homepage_body_book_block' => array(
+      'block_type' => MFConfigBlocks::MF_BLOCKS_NODEQUEUE_TYPE,
+      'nodequeue' => 'body_book_block',
+      'quantity' => 12,
+    ),
+  );
+
+  foreach ($variables as $name => $variable) {
+    variable_set($name, $variable);
+  }
+}
